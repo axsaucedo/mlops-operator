@@ -1,5 +1,0 @@
----
-- name: Install the Visitors Site
-  hosts: localhost
-  roles:
-  - visitors
