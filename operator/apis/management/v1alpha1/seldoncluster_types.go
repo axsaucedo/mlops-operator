@@ -20,28 +20,39 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-// EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
-// NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
+// SeldonCoreSpec defines the desired state of the Seldon Core installation
+type SeldonCoreSpec struct {
+	Version string `json:"version,omitempty"`
+}
+
+// SeldonDeploySpec defines the desired state of the Seldon Deploy installation
+type SeldonDeploySpec struct {
+	Version string `json:"version,omitempty"`
+}
 
 // SeldonClusterSpec defines the desired state of SeldonCluster
 type SeldonClusterSpec struct {
-	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
-	// Important: Run "make" to regenerate code after modifying this file
-
-	// Foo is an example field of SeldonCluster. Edit SeldonCluster_types.go to remove/update
-	Foo string `json:"foo,omitempty"`
+	SeldonCore *SeldonCoreSpec `json:"seldonCore,omitempty"`
 }
+
+type StatusState string
+
+// CRD Status values
+const (
+	StatusStateAvailable StatusState = "Available"
+	StatusStateCreating  StatusState = "Creating"
+	StatusStateFailed    StatusState = "Failed"
+)
 
 // SeldonClusterStatus defines the observed state of SeldonCluster
 type SeldonClusterStatus struct {
-	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
-	// Important: Run "make" to regenerate code after modifying this file
+    State StatusState `json:"state,omitempty"`
+    Description string `json:"description,omitempty"`
 }
 
+// SeldonCluster is the Schema for the seldonclusters API
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-
-// SeldonCluster is the Schema for the seldonclusters API
 type SeldonCluster struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
