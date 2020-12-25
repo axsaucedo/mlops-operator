@@ -1,0 +1,4 @@
+## Append samples you want in your CSV to this file as resources ##
+resources:
+- management.seldon.io_v1alpha1_seldoncluster.yaml
+# +kubebuilder:scaffold:manifestskustomizesamples
