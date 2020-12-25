@@ -19,6 +19,7 @@ package management
 import (
 	"context"
 
+    appsv1 "k8s.io/api/apps/v1"
 	"github.com/go-logr/logr"
 	"k8s.io/apimachinery/pkg/runtime"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -38,19 +39,16 @@ type SeldonClusterReconciler struct {
 // +kubebuilder:rbac:groups=management.seldon.io,resources=seldonclusters/status,verbs=get;update;patch
 // +kubebuilder:rbac:groups=management.seldon.io,resources=seldonclusters/finalizers,verbs=update
 
-// Reconcile is part of the main kubernetes reconciliation loop which aims to
-// move the current state of the cluster closer to the desired state.
-// TODO(user): Modify the Reconcile function to compare the state specified by
-// the SeldonCluster object against the actual cluster state, and then
-// perform operations to make the cluster state reflect the state specified by
-// the user.
-//
 // For more details, check Reconcile and its Result here:
 // - https://pkg.go.dev/sigs.k8s.io/controller-runtime@v0.7.0/pkg/reconcile
 func (r *SeldonClusterReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
 	_ = r.Log.WithValues("seldoncluster", req.NamespacedName)
 
-	// your logic here
+    instance := &managementv1alpha1.SeldonCluster{}
+    err := r.Get(ctx, req.NamespacedName, instance)
+    if err != nil {
+        return ctrl.Result{}, err
+    }
 
 	return ctrl.Result{}, nil
 }
@@ -59,5 +57,6 @@ func (r *SeldonClusterReconciler) Reconcile(ctx context.Context, req ctrl.Reques
 func (r *SeldonClusterReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
 		For(&managementv1alpha1.SeldonCluster{}).
+        Owns(&appsv1.Deployment{}).
 		Complete(r)
 }
