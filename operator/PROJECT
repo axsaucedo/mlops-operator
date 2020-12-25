@@ -1,5 +1,6 @@
 domain: seldon.io
 layout: go.kubebuilder.io/v3
+multigroup: true
 projectName: operator
 repo: github.com/SeldonIO/mlops-operator
 version: 3-alpha
