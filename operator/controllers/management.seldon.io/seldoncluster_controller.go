@@ -72,6 +72,12 @@ func (r *SeldonClusterReconciler) Reconcile(ctx context.Context, req ctrl.Reques
 		return ctrl.Result{}, err
 	}
 
+    // Seldon Core cluster section
+    found := &appsv1.Deployment{}
+    err = r.Get(ctx, types.NamespacedName{Name: instance.Name, Namespace: })
+
+    // Seldon Deploy cluster section
+
 	return ctrl.Result{}, nil
 }
 
