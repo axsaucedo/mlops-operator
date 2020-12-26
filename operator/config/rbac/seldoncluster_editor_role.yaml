@@ -5,7 +5,7 @@ metadata:
   name: seldoncluster-editor-role
 rules:
 - apiGroups:
-  - management.seldon.io.seldon.io
+  - management.seldon.io
   resources:
   - seldonclusters
   verbs:
@@ -17,7 +17,7 @@ rules:
   - update
   - watch
 - apiGroups:
-  - management.seldon.io.seldon.io
+  - management.seldon.io
   resources:
   - seldonclusters/status
   verbs:

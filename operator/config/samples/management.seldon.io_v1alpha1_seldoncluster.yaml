@@ -1,7 +1,9 @@
-apiVersion: management.seldon.io.seldon.io/v1alpha1
+apiVersion: management.seldon.io/v1alpha1
 kind: SeldonCluster
 metadata:
   name: seldoncluster-sample
 spec:
-  # Add fields here
-  foo: bar
+  seldonCore:
+    version: 1.5.1
+  seldonDeploy:
+    version: 1.0.0

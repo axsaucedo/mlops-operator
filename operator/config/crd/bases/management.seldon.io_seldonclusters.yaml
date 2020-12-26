@@ -6,9 +6,9 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.4.1
   creationTimestamp: null
-  name: seldonclusters.management.seldon.io.seldon.io
+  name: seldonclusters.management.seldon.io
 spec:
-  group: management.seldon.io.seldon.io
+  group: management.seldon.io
   names:
     kind: SeldonCluster
     listKind: SeldonClusterList
@@ -39,6 +39,13 @@ spec:
               seldonCore:
                 description: SeldonCoreSpec defines the desired state of the Seldon
                   Core installation
+                properties:
+                  version:
+                    type: string
+                type: object
+              seldonDeploy:
+                description: SeldonDeploySpec defines the desired state of the Seldon
+                  Deploy installation
                 properties:
                   version:
                     type: string

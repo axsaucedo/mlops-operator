@@ -16,7 +16,7 @@ limitations under the License.
 
 // Package v1alpha1 contains API Schema definitions for the management.seldon.io v1alpha1 API group
 // +kubebuilder:object:generate=true
-// +groupName=management.seldon.io.seldon.io
+// +groupName=management.seldon.io
 package v1alpha1
 
 import (
@@ -26,11 +26,19 @@ import (
 
 var (
 	// GroupVersion is group version used to register these objects
-	GroupVersion = schema.GroupVersion{Group: "management.seldon.io.seldon.io", Version: "v1alpha1"}
+	GroupVersion = schema.GroupVersion{Group: "management.seldon.io", Version: "v1alpha1"}
 
 	// SchemeBuilder is used to add go types to the GroupVersionKind scheme
 	SchemeBuilder = &scheme.Builder{GroupVersion: GroupVersion}
 
 	// AddToScheme adds the types in this group-version to the given scheme.
 	AddToScheme = SchemeBuilder.AddToScheme
+
+	// SchemeGroupVersion is group version used to register these objects
+	SchemeGroupVersion = schema.GroupVersion{Group: "management.seldon.io", Version: "v1alpha1"}
+
+	// Resource takes an unqualified resource and returns a Group qualified GroupResource
+	Resource = func(resource string) schema.GroupResource {
+		return SchemeGroupVersion.WithResource(resource).GroupResource()
+	}
 )

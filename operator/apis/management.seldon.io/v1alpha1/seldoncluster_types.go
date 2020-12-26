@@ -32,7 +32,8 @@ type SeldonDeploySpec struct {
 
 // SeldonClusterSpec defines the desired state of SeldonCluster
 type SeldonClusterSpec struct {
-	SeldonCore *SeldonCoreSpec `json:"seldonCore,omitempty"`
+	SeldonCore   *SeldonCoreSpec   `json:"seldonCore,omitempty"`
+	SeldonDeploy *SeldonDeploySpec `json:"seldonDeploy,omitempty"`
 }
 
 type StatusState string

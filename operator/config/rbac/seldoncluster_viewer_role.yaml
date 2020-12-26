@@ -5,7 +5,7 @@ metadata:
   name: seldoncluster-viewer-role
 rules:
 - apiGroups:
-  - management.seldon.io.seldon.io
+  - management.seldon.io
   resources:
   - seldonclusters
   verbs:
@@ -13,7 +13,7 @@ rules:
   - list
   - watch
 - apiGroups:
-  - management.seldon.io.seldon.io
+  - management.seldon.io
   resources:
   - seldonclusters/status
   verbs:
