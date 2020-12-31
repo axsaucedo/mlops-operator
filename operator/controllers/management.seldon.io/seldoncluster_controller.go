@@ -20,6 +20,7 @@ import (
 	"context"
 
 	"github.com/go-logr/logr"
+    "k8s.io/apimachinery/pkg/types"
 	appsv1 "k8s.io/api/apps/v1"
 	"k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -72,13 +73,37 @@ func (r *SeldonClusterReconciler) Reconcile(ctx context.Context, req ctrl.Reques
 		return ctrl.Result{}, err
 	}
 
-    // Seldon Core cluster section
+    // Seldon Deploy cluster section
+    sdName := r.getSeldonDeployName(instance)
     found := &appsv1.Deployment{}
-    err = r.Get(ctx, types.NamespacedName{Name: instance.Name, Namespace: })
+    err = r.Get(ctx, types.NamespacedName{Name: sdName, Namespace: instance.Namespace}, found)
+    if err != nil && errors.IsNotFound(err) {
+        // Define a new deployment
+        dep := r.getDeploymentForSeldonDeploy(instance)
+        log.Info("Creating a new Deployment", "Deployment.Namespace", dep.Namespace, "DEployment.Name", dep.Name)
+        err = r.Create(ctx, dep)
+        if err != nil {
+            log.Error(err, "Failed to create new Deployment", "Deployment.Namespace", dep.Namespace, "Deployment.Name", dep.Name)
+            return ctrl.Result{}, err
+        }
+        // Deployment created successfully - return and requeue
+        return ctrl.Result{Requeue: true}, nil
+    } else if err != nil {
+        log.Error(err, "Failed to get Deployment")
+        return ctrl.Result{}, err
+    }
 
     // Seldon Deploy cluster section
 
 	return ctrl.Result{}, nil
+}
+
+func (r *SeldonClusterReconciler) getDeploymentForSeldonDeploy(instance *managementseldoniov1alpha1.SeldonCluster) *appsv1.Deployment {
+    return &appsv1.Deployment{}
+}
+
+func (r *SeldonClusterReconciler) getSeldonDeployName(instance *managementseldoniov1alpha1.SeldonCluster) string {
+    return instance.Name + "-deploy"
 }
 
 // SetupWithManager sets up the controller with the Manager.
